@@ -24,7 +24,7 @@ setup(
     author="Ege Akman",
     author_email="egeakmanegeakman@hotmail.com",
     url="https://github.com/egeakman/gcode2zaxe",
-    description="Gcode to Zaxe Converter",
+    description="Gcode to Zaxe Converter | executable: g2z",
     long_description=long_description,
     long_description_content_type="text/markdown",
     version="2022.3.15",
