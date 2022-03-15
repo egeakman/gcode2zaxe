@@ -45,7 +45,7 @@ else:
 
 def create_zaxe():
     with zipfile.ZipFile(zaxepath, "w", zipfile.ZIP_DEFLATED) as f:
-        f.write(args.gcode, "data.zaxe_code")
+        f.write(os.path.join(TMP, "o.gcode"), "data.zaxe_code")
         f.write(snapshot, "snapshot.png")
         f.write(infopath, "info.json")
 
@@ -57,7 +57,7 @@ def convert_to_bytes(value):
 
 def md5():
     hash_md5 = hashlib.md5()
-    with open(os.path.join(TMP, "o.gcode"), "wb") as f:
+    with open(os.path.join(TMP, "o.gcode"), "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
@@ -69,7 +69,7 @@ def main():
 
     encoded = convert_to_bytes(args.gcode)
 
-    with open(os.path.join(TMP, "o.gcode"), "w") as f:
+    with open(os.path.join(TMP, "o.gcode"), "wb") as f:
         f.write(encoded)
 
     open(os.path.join(TMP, "snapshot.png"), "w").close()
