@@ -34,7 +34,7 @@ setup(
     python_requires=">=3.6",
     entry_points={
         "console_scripts": [
-            "gcode2zaxe=gcode2zaxe.convert:main",
+            "g2z=gcode2zaxe.convert:main",
         ]
     },
     install_requires=[
