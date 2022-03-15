@@ -27,11 +27,11 @@ setup(
     description="Gcode to Zaxe Converter | executable: g2z",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="2022.3.15-1",
+    version="2022.3.15-2",
     license="AGPLv3",
-    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.3.15-1.tar.gz",
+    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.3.15-2.tar.gz",
     packages=find_packages(where=".", exclude=["tests"]),
-    python_requires=">=3.6",
+    python_requires=">=3.5",
     entry_points={
         "console_scripts": [
             "g2z=gcode2zaxe.convert:main",
