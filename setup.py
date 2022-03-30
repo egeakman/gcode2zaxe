@@ -1,3 +1,4 @@
+import contextlib
 import json
 import urllib.request
 from setuptools import setup, find_packages
@@ -5,14 +6,12 @@ from setuptools import setup, find_packages
 
 def latest_version(package_name):
     url = f"https://pypi.python.org/pypi/{package_name}/json"
-    try:
+    with contextlib.suppress(Exception):
         response = urllib.request.urlopen(urllib.request.Request(url), timeout=1)
         data = json.load(response)
         versions = data["releases"].keys()
         versions = sorted(versions)
-        return ">={}".format(versions[-1])
-    except Exception:
-        pass
+        return f">={versions[-1]}"
     return ""
 
 
@@ -27,9 +26,9 @@ setup(
     description="Gcode to Zaxe Converter | executable: g2z",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="2022.3.15-2",
+    version="2022.3.30",
     license="AGPLv3",
-    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.3.15-2.tar.gz",
+    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.3.30.tar.gz",
     packages=find_packages(where=".", exclude=["tests"]),
     python_requires=">=3.5",
     entry_points={

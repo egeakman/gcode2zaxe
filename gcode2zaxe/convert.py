@@ -3,6 +3,7 @@ import json
 import zipfile
 import hashlib
 import tempfile
+import datetime
 from argparse import ArgumentParser
 
 TMP = tempfile.gettempdir()
@@ -63,29 +64,50 @@ def md5():
     return hash_md5.hexdigest()
 
 
+def read_gcode():
+    gcode_info = {}
+    with open(args.gcode, "r") as f:
+        for line in f.readlines():
+            if line.startswith(";TIME:"):
+                time = int(line.split(";TIME:")[1].strip())
+                gcode_info["time"] = str(datetime.timedelta(seconds=time))
+
+    with open(args.gcode, "r") as f:
+        for line in f.readlines():
+            if line.startswith(";Filament used:"):
+                filament_used = round(
+                    float(line.split(";Filament used:")[1].strip().replace("m", "")), 2
+                )
+                gcode_info["filament_used"] = f"{str(filament_used)}m"
+
+        return gcode_info
+
+
+def make_info():
+    return {
+        "material": args.filament,
+        "nozzle_diameter": args.nozzle_diameter,
+        "filament_used": read_gcode()["filament_used"],
+        "model": args.model,
+        "checksum": md5(),
+        "name": args.name,
+        "duration": read_gcode()["time"],
+        "extruder_temperature": 220,
+        "bed_temperature": 60,
+        "version": "1.0.4",
+    }
+
+
 def main():
-    with open(os.path.join(TMP, "info.json"), "w") as f:
-        f.write(json.dumps(info))
 
     encoded = convert_to_bytes(args.gcode)
 
     with open(os.path.join(TMP, "o.gcode"), "wb") as f:
         f.write(encoded)
 
+    with open(os.path.join(TMP, "info.json"), "w") as f:
+        f.write(json.dumps(make_info()))
+
     open(os.path.join(TMP, "snapshot.png"), "w").close()
 
     create_zaxe()
-
-
-info = {
-    "material": args.filament,
-    "nozzle_diameter": args.nozzle_diameter,
-    "filament_used": 1000.0,
-    "model": args.model,
-    "checksum": md5(),
-    "name": args.name,
-    "duration": "00:20:00",
-    "extruder_temperature": 220,
-    "bed_temperature": 60,
-    "version": "1.0.4",
-}
