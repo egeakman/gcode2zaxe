@@ -78,7 +78,7 @@ def read_gcode():
                 filament_used = round(
                     float(line.split(";Filament used:")[1].strip().replace("m", "")), 2
                 )
-                gcode_info["filament_used"] = f"{str(filament_used)}m"
+                gcode_info["filament_used"] = float(filament_used)
 
         return gcode_info
 
@@ -94,7 +94,7 @@ def make_info():
         "duration": read_gcode()["time"],
         "extruder_temperature": 220,
         "bed_temperature": 60,
-        "version": "1.0.4",
+        "version": "2.0.0",
     }
 
 
