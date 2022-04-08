@@ -1,4 +1,4 @@
-# gcode2zaxe
+# gcode2zaxe &nbsp;[![Downloads](https://static.pepy.tech/personalized-badge/gcode2zaxe?period=total&units=international_system&left_color=blue&right_color=yellow&left_text=Downloads)](https://pepy.tech/project/gcode2zaxe)
 
 A CLI application that converts gcode files to Zaxe print-ready files. You can use it from the command line after installing it. The executable name is `g2z`. **Don't forget to star the project on [GitHub](https://github.com/egeakman/gcode2zaxe).**
 
