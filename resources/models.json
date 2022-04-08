@@ -1,0 +1,12 @@
+{
+    "models": {
+        "Zaxe X1": "X1",
+        "Zaxe X1+": "X1_plus",
+        "Zaxe X2": "X2",
+        "Zaxe X3": "X3",
+        "Zaxe XLite": "X_lite",
+        "Zaxe Z1": "Z1",
+        "Zaxe Z1+": "Z1_plus",
+        "Zaxe Z3": "Z3"
+    }
+}

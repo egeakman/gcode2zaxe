@@ -1,3 +1,4 @@
+import contextlib
 import os
 import json
 import zipfile
@@ -11,10 +12,7 @@ TMP = tempfile.gettempdir()
 parser = ArgumentParser()
 parser.add_argument("-g", "--gcode", help="gcode file to convert", required=True)
 parser.add_argument(
-    "-n", "--name", help="name of the model", required=False, default=None
-)
-parser.add_argument(
-    "-o", "--output", help="output folder", required=False, default=os.getcwd()
+    "-n", "--name", help="name of the output file", required=False, default=None
 )
 parser.add_argument(
     "-f",
@@ -33,20 +31,18 @@ args = parser.parse_args()
 
 snapshot = os.path.join(TMP, "snapshot.png")
 infopath = os.path.join(TMP, "info.json")
-
-if args.name is None:
-    args.name = args.gcode
-
-if args.output is os.getcwd():
-    zaxepath = f"./{args.name}.zaxe"
-
-else:
-    zaxepath = f"{args.output}/{args.name}.zaxe"
+tmp_gcode = os.path.join(TMP, "o.gcode")
+args.name = (
+    args.gcode
+    if args.name is None
+    else os.path.join(os.path.dirname(args.gcode), args.name)
+)
+zaxepath = f"{args.name}.zaxe"
 
 
 def create_zaxe():
     with zipfile.ZipFile(zaxepath, "w", zipfile.ZIP_DEFLATED) as f:
-        f.write(os.path.join(TMP, "o.gcode"), "data.zaxe_code")
+        f.write(tmp_gcode, "data.zaxe_code")
         f.write(snapshot, "snapshot.png")
         f.write(infopath, "info.json")
 
@@ -58,7 +54,7 @@ def convert_to_bytes(value):
 
 def md5():
     hash_md5 = hashlib.md5()
-    with open(os.path.join(TMP, "o.gcode"), "rb") as f:
+    with open(tmp_gcode, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
@@ -87,27 +83,36 @@ def make_info():
     return {
         "material": args.filament,
         "nozzle_diameter": args.nozzle_diameter,
-        "filament_used": read_gcode()["filament_used"],
+        "filament_used": read_gcode()["filament_used"]
+        if "filament_used" in read_gcode()
+        else 0,
         "model": args.model,
         "checksum": md5(),
-        "name": args.name,
-        "duration": read_gcode()["time"],
-        "extruder_temperature": 220,
-        "bed_temperature": 60,
+        "name": args.name.split("/")[-1]
+        if args.name.split("/")[-1] != args.name
+        else args.name.split("\\")[-1],
+        "duration": read_gcode()["time"] if "time" in read_gcode() else "00:00:00",
         "version": "2.0.0",
     }
+
+
+def cleanup():
+    with contextlib.suppress(FileNotFoundError):
+        os.remove(tmp_gcode)
+        os.remove(infopath)
+        os.remove(snapshot)
 
 
 def main():
 
     encoded = convert_to_bytes(args.gcode)
 
-    with open(os.path.join(TMP, "o.gcode"), "wb") as f:
+    with open(tmp_gcode, "wb") as f:
         f.write(encoded)
 
-    with open(os.path.join(TMP, "info.json"), "w") as f:
+    with open(infopath, "w") as f:
         f.write(json.dumps(make_info()))
 
-    open(os.path.join(TMP, "snapshot.png"), "w").close()
-
+    open(snapshot, "w").close()
     create_zaxe()
+    cleanup()
