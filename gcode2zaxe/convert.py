@@ -74,7 +74,7 @@ def read_gcode():
                 filament_used = round(
                     float(line.split(";Filament used:")[1].strip().replace("m", "")), 2
                 )
-                gcode_info["filament_used"] = float(filament_used)
+                gcode_info["filament_used"] = float(filament_used) * 1000
 
         return gcode_info
 
