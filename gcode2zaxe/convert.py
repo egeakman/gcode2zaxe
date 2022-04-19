@@ -80,8 +80,10 @@ def read_gcode():
 
 
 def make_info():
+    material = args.filament.lowercase()
+
     return {
-        "material": args.filament,
+        "material": material,
         "nozzle_diameter": args.nozzle_diameter,
         "filament_used": read_gcode()["filament_used"]
         if "filament_used" in read_gcode()
@@ -92,6 +94,8 @@ def make_info():
         if args.name.split("/")[-1] != args.name
         else args.name.split("\\")[-1],
         "duration": read_gcode()["time"] if "time" in read_gcode() else "00:00:00",
+        "extruder_temperature": 210 if material == "zaxe_pla" else 240,
+        "bed_temperature": 60 if material == "zaxe_pla" else 80,
         "version": "2.0.0",
     }
 
