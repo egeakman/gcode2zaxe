@@ -80,7 +80,7 @@ def read_gcode():
 
 
 def make_info():
-    material = args.filament.lowercase()
+    material = args.filament.lower()
 
     return {
         "material": material,
