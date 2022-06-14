@@ -28,7 +28,7 @@ setup(
     long_description_content_type="text/markdown",
     version="2022.6.15",
     license="AGPLv3",
-    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.4.21.tar.gz",
+    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.6.15.tar.gz",
     packages=find_packages(
         where="gcode2zaxe", exclude=["tests", "resources", "gcode2zaxegui"]
     ),
