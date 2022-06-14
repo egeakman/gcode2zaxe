@@ -8,7 +8,7 @@
         "Zaxe Z1+": "Z1PLUS",
         "Zaxe Z3": "Z3"
     },
-    "filament_types": {
+    "materials": {
         "PLA": "zaxe_pla",
         "ABS": "zaxe_abs",
         "PETG": "zaxe_petg",

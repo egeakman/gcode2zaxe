@@ -29,11 +29,13 @@ setup(
     version="2022.4.21",
     license="AGPLv3",
     download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.4.21.tar.gz",
-    packages=find_packages(where=".", exclude=["tests", "resources"]),
-    python_requires=">=3.5",
+    packages=find_packages(
+        where="gcode2zaxe", exclude=["tests", "resources", "gcode2zaxegui"]
+    ),
+    python_requires=">=3.8",
     entry_points={
         "console_scripts": [
-            "g2z=gcode2zaxe.convert:main",
+            "g2z=gcode2zaxe.cli:main",
         ]
     },
     install_requires=[
