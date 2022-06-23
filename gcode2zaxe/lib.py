@@ -48,8 +48,18 @@ def read_gcode(gcode):
         return gcode_info
 
 
-def make_info(filament_type, nozzle_diameter, gcode, model, tmp_gcode, name):
-    return {
+def write_tmps(gcode, tmp_gcode, snapshot):
+    encoded = convert_to_bytes(gcode)
+
+    with open(tmp_gcode, "wb") as f:
+        f.write(encoded)
+
+    open(snapshot, "w").close()
+    
+
+def make_info(infopath, filament_type, nozzle_diameter, gcode, model, tmp_gcode, name):
+    with open(infopath, "w") as f:
+        f.write(json.dumps({
         "material": filament_type,
         "nozzle_diameter": nozzle_diameter,
         "filament_used": read_gcode(gcode)["filament_used"]
@@ -66,19 +76,7 @@ def make_info(filament_type, nozzle_diameter, gcode, model, tmp_gcode, name):
         "extruder_temperature": 210 if filament_type == "zaxe_pla" else 240,
         "bed_temperature": 60 if filament_type == "zaxe_pla" else 80,
         "version": "2.0.0",
-    }
-
-
-def write_tmps(gcode, tmp_gcode, infopath, info, snapshot):
-    encoded = convert_to_bytes(gcode)
-
-    with open(tmp_gcode, "wb") as f:
-        f.write(encoded)
-
-    with open(infopath, "w") as f:
-        f.write(json.dumps(info))
-
-    open(snapshot, "w").close()
+    }))
 
 
 def cleanup(tmp_gcode, infopath, snapshot):

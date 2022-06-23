@@ -38,25 +38,15 @@ zaxepath = f"{args.name}.zaxe"
 
 
 def main():
-    encoded = lib.convert_to_bytes(args.gcode)
-
-    with open(tmp_gcode, "wb") as f:
-        f.write(encoded)
-
-    with open(infopath, "w") as f:
-        f.write(
-            json.dumps(
-                lib.make_info(
-                    args.filament,
-                    args.nozzle_diameter,
-                    args.gcode,
-                    args.model,
-                    tmp_gcode,
-                    args.name,
-                )
-            )
-        )
-
-    open(snapshot, "w").close()
+    lib.write_tmps(args.gcode, tmp_gcode, snapshot)
+    lib.make_info(
+        infopath,
+        args.filament,
+        args.nozzle_diameter,
+        args.gcode,
+        args.model,
+        tmp_gcode,
+        args.name,
+    )
     lib.create_zaxe(zaxepath, tmp_gcode, snapshot, infopath)
     lib.cleanup(tmp_gcode, infopath, snapshot)

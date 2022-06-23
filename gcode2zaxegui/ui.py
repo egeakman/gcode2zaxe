@@ -22,13 +22,13 @@ from PyQt6.QtWidgets import (
 class ui_functions:
     @staticmethod
     def return_model_list():
-        with open("../resources/resources.json", "r") as f:
+        with open("resources.json", "r") as f:
             datastore = json.load(f)
         return list(datastore["models"])
 
     @staticmethod
     def return_filament_types():
-        with open("../resources/resources.json", "r") as f:
+        with open("resources.json", "r") as f:
             datastore = json.load(f)
         return list(datastore["materials"])
 
@@ -226,25 +226,25 @@ class ui_design(QWidget):
         self.bottom_hbox.addWidget(self.subtitle)
 
     def convert(self):
-        with open("../resources/resources.json", "r") as f:
+        with open("resources.json", "r") as f:
             datastore = json.load(f)
         if self.is_convertable():
-            try:
 
+            try:
                 g2z_lib.write_tmps(
                     self.dir[0],
                     self.tmp_gcode,
-                    self.infopath,
-                    g2z_lib.make_info(
-                        datastore["materials"][self.filament_type_input.currentText()],
-                        self.spin_box.value(),
-                        self.dir[0],
-                        datastore["models"][self.model_combobox.currentText()],
-                        self.tmp_gcode,
-                        self.output_dir[0],
-                    ),
                     self.snapshot,
                 )
+                g2z_lib.make_info(
+                    self.infopath,
+                    datastore["materials"][self.filament_type_input.currentText()],
+                    self.spin_box.value(),
+                    self.dir[0],
+                    datastore["models"][self.model_combobox.currentText()],
+                    self.tmp_gcode,
+                    self.output_dir[0],
+                ),
                 g2z_lib.create_zaxe(
                     self.output_dir[0], self.tmp_gcode, self.snapshot, self.infopath
                 )
@@ -256,7 +256,7 @@ class ui_design(QWidget):
                     title="Success!",
                     icon=QMessageBox.Icon.Information,
                 )
-            except Exception as e:
+            except Exception:
                 self.message_box(
                     "An unknown error occured. Please try again.",
                     buttons=QMessageBox.StandardButton.Ok,
