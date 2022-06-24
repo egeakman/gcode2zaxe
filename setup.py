@@ -26,9 +26,9 @@ setup(
     description="Gcode to Zaxe Converter | executable: g2z",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="2022.6.23",
+    version="2022.6.25",
     license="AGPLv3",
-    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.6.23.tar.gz",
+    download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.6.25.tar.gz",
     packages=find_packages(where=".", exclude=["tests", "gcode2zaxegui"]),
     python_requires=">=3.8",
     entry_points={
