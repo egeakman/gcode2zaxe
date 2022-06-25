@@ -29,7 +29,7 @@ setup(
     version="2022.6.25",
     license="AGPLv3",
     download_url="https://github.com/egeakman/gcode2zaxe/archive/2022.6.25.tar.gz",
-    packages=find_packages(where=".", exclude=["tests", "gcode2zaxegui"]),
+    packages=find_packages(where=".", exclude=["tests"]),
     python_requires=">=3.8",
     entry_points={
         "console_scripts": [
