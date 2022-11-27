@@ -20,7 +20,7 @@ Run:&nbsp; ``python -m pip install --upgrade gcode2zaxe``
 
 * ``-d, --nozzle_diameter:`` Nozzle diameter. Defaults to ``0.4``.
 
-* ``-m, --model:`` Zaxe printer model. Defaults to ``X1``. See available models in the [models list](https://github.com/egeakman/gcode2zaxe/blob/master/gcode2zaxegui/resources.json).
+* ``-m, --model:`` Zaxe printer model. Defaults to ``X1``. See available models in the [models list](https://github.com/egeakman/g2z-gui/blob/master/resources.json).
 
 ## Contributing
 
